@@ -1,6 +1,6 @@
 import {Navigate, Route, Routes} from "react-router-dom";
 import {Login, Main} from "./pages";
-import ParticleBg from "./pages/ParticleBg";
+import ParticleBg from "./subComponents/ParticleBg";
 
 function App() {
     const token = localStorage.getItem("access_token")

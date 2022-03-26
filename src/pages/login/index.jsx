@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {useNavigate} from "react-router-dom";
 import {gql, useMutation} from "@apollo/client";
 import clsx from "clsx";
-import ParticleBg from "../ParticleBg";
+import ParticleBg from "../../subComponents/ParticleBg";
 
 
 const LOGIN = gql`
@@ -24,31 +24,21 @@ const LOGIN = gql`
 
 const Login = () => {
 
-    const [inputs, setInputs] = useState({});
-
     const navigate = useNavigate();
 
-    const [login, {data, loading, error}] = useMutation(LOGIN, {
-        variables: {
-            email: inputs.email,
-            password: inputs.password
-        }
-    })
+    const [login, {data, loading, error}] = useMutation(LOGIN);
 
     if (!error && data?.users.login.token) {
         localStorage.setItem('access_token', data.users.login.token.accessToken);
         navigate("/main");
     }
 
-    const handleChange = (event) => {
-        const name = event.target.name;
-        const value = event.target.value;
-        setInputs(values => ({...values, [name]: value}))
-    }
-
     const handleSubmit = (event) => {
         event.preventDefault();
-        login();
+        const formData = new FormData(event.currentTarget);
+        const requestData = Object.fromEntries(formData);
+        console.log(requestData)
+        login({variables: {email:requestData.email,password:requestData.password}});
     }
 
     return (
@@ -67,8 +57,6 @@ const Login = () => {
                             name="email"
                             type="email"
                             required
-                            value={inputs.email || ""}
-                            onChange={handleChange}
                             className={clsx("z-50 appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white",{error : "border-red-500"})}
                             id="email" placeholder="Jane"/>
                         {
@@ -88,8 +76,6 @@ const Login = () => {
                         </label>
                         <input
                             name="password"
-                            value={inputs.password || ""}
-                            onChange={handleChange}
                             className={clsx("appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white",{error : "border-red-500"})}
                             id="password" type="password" placeholder="******************"/>
                         {
