@@ -52,9 +52,9 @@ const Login = () => {
     }
 
     return (
-        <div className="w-full h-full absolute bg-black">
+        <div className="w-full h-full absolute bg-black flex justify-center">
         <ParticleBg/>
-        <div className="flex relative z-10 flex-col leading-tight justify-center items-center min-w-[100vw] min-h-[100vh]">
+        <div className="flex relative z-10 flex-col leading-tight justify-center items-center min-w-[400px]">
             <h1 className="font-medium leading-tight text-5xl mt-0 mb-2 text-[#F4F4F4]">Login form</h1>
             <form onSubmit={handleSubmit} className="w-full max-w-lg">
                 <div className="flex flex-wrap -mx-3 mb-6">
